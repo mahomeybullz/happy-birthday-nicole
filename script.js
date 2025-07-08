@@ -1,4 +1,5 @@
-// Sparkles background
+import confetti from 'https://cdn.skypack.dev/canvas-confetti';
+
 const canvas = document.getElementById('sparkles');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -32,19 +33,14 @@ function animate() {
 }
 animate();
 
-// Confetti on button click
-import confetti from 'https://cdn.skypack.dev/canvas-confetti';
-document.getElementById('breakdown').addEventListener('click', () => {
-  confetti({
-    particleCount: 150,
-    spread: 70,
-    origin: { y: 0.6 }
-  });
+document.getElementById('confettiBtn').addEventListener('click', () => {
+  confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } });
 });
 
-// Play music on load
+const bgm = document.getElementById('bgm');
+const cry = document.getElementById('cry');
+
 window.addEventListener('DOMContentLoaded', () => {
-  const bgm = document.getElementById('bgm');
   bgm.volume = 0.5;
   bgm.play().catch(() => {
     const btn = document.createElement('button');
@@ -54,3 +50,26 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('main').appendChild(btn);
   });
 });
+
+document.getElementById('playCry').addEventListener('click', () => {
+  cry.play();
+});
+
+// Countdown to Nicole’s next birthday
+const targetDate = new Date("2026-07-08T00:00:00");
+const countdownEl = document.getElementById("countdown");
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = targetDate - now;
+  if (diff <= 0) {
+    countdownEl.textContent = "It’s your birthday again!! 🎉";
+    return;
+  }
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / 1000 / 60) % 60);
+  countdownEl.textContent = `Next chaos drop in ${days}d ${hours}h ${minutes}m`;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
